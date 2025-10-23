@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { addTransaction, getTransactions, deleteTransaction } = require('../controllers/transactionController');
+const auth = require('../middleware/authMiddleware');
+const { addTransaction, getTransactions, deleteTransaction, downloadReport } = require('../controllers/transactionController');
 
-router.post('/add', addTransaction);
-router.get('/', getTransactions); // supports filters via query params
-
-// Use the controller for deletion
-router.delete('/:id', deleteTransaction);
+router.post('/add', auth, addTransaction);
+router.get('/', auth, getTransactions); // supports filters via query params
+router.delete('/:id', auth, deleteTransaction);
+router.get('/download/excel', auth, downloadReport);
 
 module.exports = router;
